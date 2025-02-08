@@ -1,6 +1,7 @@
 import { StyleSheet, View, StatusBar, Button, Alert } from "react-native";
 import { WebView } from "react-native-webview";
 import * as ScreenOrientation from "expo-screen-orientation"
+import { switchCamera } from "@/components/httpRequests";
 
 // Main function
 export default function Index() {
@@ -12,27 +13,28 @@ export default function Index() {
 
   // Returned views
   return (
+    
     <View style={styles.container}>
       <StatusBar backgroundColor={"black"} barStyle={"default"} hidden/>
       
       {/* left button */}
       <View style={styles.ButtonContainer}>
         <Button
-          title="Left"
-          onPress={() => Alert.alert("pressed L")}
+          title="prev"
+          onPress={() => switchCamera("prev")}
         />
       </View>
       
       {/* webview */}
         <WebView style={styles.WebView}
-          source={{ uri: "http://192.168.113.92:5000" }}
+          source={{ uri: "http://192.168.113.92:5000" }} //change to use .env
         />
       
       {/* right button */}
       <View style={styles.ButtonContainer} >
         <Button
-          title="Right"
-          onPress={() => Alert.alert("pressed R")}
+          title="Next"
+          onPress={() => switchCamera("next")}
         />
       </View>
     </View>
