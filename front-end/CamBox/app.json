@@ -3,7 +3,10 @@
     "name": "CamBox",
     "slug": "CamBox",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
+    "androidNavigationBar": {
+      "visible": "immersive"
+    },
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -11,6 +14,7 @@
     "ios": {
       "supportsTablet": true
     },
+    
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
