@@ -121,7 +121,9 @@ def generateFrames():
         yield (b'--frame'
                b'Content-Type:image/jpeg\r\n\r\n'+ frame + b'\r\n')
 
-#route for adjusting how the videofeed is show
+
+
+#route for adjusting how the videofeed is shown
 @app.route('/')
 def index():
     return '''
