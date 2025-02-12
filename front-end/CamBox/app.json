@@ -36,8 +36,10 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-screen-orientation"
     ],
+    
     "experiments": {
       "typedRoutes": true
     }

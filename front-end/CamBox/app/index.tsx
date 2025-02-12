@@ -2,14 +2,19 @@ import { StyleSheet, View, StatusBar, Button, Alert } from "react-native";
 import { WebView } from "react-native-webview";
 import * as ScreenOrientation from "expo-screen-orientation"
 import { switchCamera } from "@/components/httpRequests";
+import { useEffect } from "react";
 
 // Main function
 export default function Index() {
-  async function changeScreenOrientation() {
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+
+  useEffect(() => {
+    const changeScreenOrientation = async () => {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
   }
   
   changeScreenOrientation()
+  }, []);
+  
 
   // Returned views
   return (
