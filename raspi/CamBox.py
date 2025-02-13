@@ -7,7 +7,7 @@ from flask import Flask, Response, request, jsonify
 from threading import Lock
 from flask_cors import CORS
 
-#gpio setup
+# gpio setup
 gp.setwarnings(False)
 gp.setmode(gp.BOARD)
 gp.setup(7, gp.OUT)
@@ -15,55 +15,57 @@ gp.setup(11, gp.OUT)
 gp.setup(12, gp.OUT)
 print('GPIO setup complete')
 
-#picamera setup
+# picamera setup
 picam2 = Picamera2()
 picam2.configure(picam2.create_video_configuration(main = {"size": (640, 480), "format": "BGR888"}, buffer_count=6))
 
-#set register for arducam camera
+# set register for arducam camera
 i2c = "i2cset -y 1 0x70 0x00 0x04"
-#set adapter board to correct camera
+# set adapter board to correct camera
 os.system(i2c)
 gp.output(7, False)
 gp.output(11, False)
 gp.output(12, True)
-#allow time for switch
+
+# allow time for switch and start camera
 time.sleep(0.5)
 picam2.start()
 print('On camera A')
 print('picam setup complete')
 
-#lock for camera when switching
+# lock for camera when switching
 camera_lock = Lock()
 
-#variable for keeping track of camera
+# variable for keeping track of camera
 currentCamera = 1
 
+# flask setup
 app = Flask(__name__)
 CORS(app)
 
-#func for switching cameras
+# func for switching cameras
 def switchCamera(cameraId):
-    #select global camera and current camera
+    # select global camera and current camera
     global picam2
     global currentCamera
     with camera_lock:
-        #close old one and start new one
+        # lose old one and start reconfigure new one
         picam2.close()
         picam2 = Picamera2()
         picam2.configure(picam2.create_video_configuration(main = {"size": (640, 480), "format": "BGR888"}, buffer_count=6))
 
         print('camera id: ' + str(cameraId))
 
-        #select correct camera
+        # select correct camera
         if(cameraId == 1):
-            #set register for camera
+            # set register for camera
             i2c = "i2cset -y 1 0x70 0x00 0x04"
-            #set adapter board to correct camera
+            # set adapter board to correct camera
             os.system(i2c)
             gp.output(7, False)
             gp.output(11, False)
             gp.output(12, True)
-            #allow time for switch
+            # allow time for switch and start camera
             time.sleep(0.5)
             picam2.start()
             print('On camera A')
@@ -109,7 +111,7 @@ def switchCamera(cameraId):
             print('On camera A')
             currentCamera = 1
 
-#generates and shows video feed
+# generates and shows video feed
 def generateFrames():
     while True:
         frame = picam2.capture_array()
@@ -146,9 +148,17 @@ def index():
                 object-fit: cover;
             }
         </style>
+        <script>
+            function refreshImage() {
+                var img = document.getElementById("videoFeed");
+                img.src = "/videoFeed?t=" + new Date().getTime();
+            }
+
+            setInterval(refreshImage, 3000); // Refresh every 5s to avoid stale feed
+        </script>
     </head>
     <body>
-        <img src="/videoFeed" />
+        <img id="videoFeed" src="/videoFeed" />
     </body>
     </html>
     '''
@@ -161,10 +171,10 @@ def videofeed():
 # route for camera switch post requests
 @app.route('/switchCamera', methods=['POST'])
 def switch():
-    #get global currentcamera
+    # get global currentcamera
     global currentCamera
     
-    #handle request
+    # handle request
     data = request.get_json()
     if data and 'camera' in data:
         cameraDirect = data['camera']
@@ -173,17 +183,25 @@ def switch():
 
     print(f'camera direction: {cameraDirect}')
     
-    #select camera to be show
+    # select camera to be shown
+    # next camera
     if(cameraDirect == "next"):
         if (currentCamera <= 3):
             currentCamera += 1
         else:
             currentCamera = 1
-    elif(cameraDirect == "prev"):
+    # prev camera
+    elif(cameraDirect == "prev"):  
         if (currentCamera >=2):
             currentCamera -= 1
         else:
             currentCamera = 4
+    #flip camera
+    else: 
+        currentCamera += 2
+        if(currentCamera > 4):
+            temp = currentCamera-4
+            currentCamera = temp
 
     #call switch camera
     switchCamera(currentCamera)
