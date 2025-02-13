@@ -12,10 +12,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "requiresFullScreen": true,
       "supportsTablet": true
     },
-    
     "android": {
+      "requiresFullScreen": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -37,7 +38,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-screen-orientation"
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "LANDSCAPE_RIGHT"
+        }
+      ]
     ],
     
     "experiments": {
