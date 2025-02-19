@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import RPi.GPIO as gp
 import os
 import time
