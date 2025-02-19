@@ -10,7 +10,7 @@ export default function Index() {
   useEffect(() => {
     const changeScreenOrientation = async () => {
 
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
   };
   
   changeScreenOrientation()
@@ -19,33 +19,33 @@ export default function Index() {
 
   // Returned views
   return (
-    <View style={styles.container}
-      onLayout={async () => {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
+    <View style = {styles.container}
+      onLayout = {async () => {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
       }}
     >
       <StatusBar backgroundColor={"black"} barStyle={"default"} hidden/>
       
       {/* webview */}
         <WebView style={styles.WebView}
-          source={{ uri: "http://192.168.113.92:5000" }} //change to use .env
+          source = {{ uri: "http://192.168.113.92:5000" }} //change to use .env
         />
 
-      <View style={styles.ButtonContainer}>
+      <View style = {styles.ButtonContainer}>
         {/* flip camera button */}
         <Button
-          title="Flip"
-          onPress={() => switchCamera("flip")}
+          title = "Flip"
+          onPress = {() => switchCamera("flip")}
         />
         {/* next camera button */}
         <Button
-          title="Next"
-          onPress={() => switchCamera("next")}
+          title = "Next"
+          onPress = {() => switchCamera("next")}
         />
         {/* prev camera button */}
         <Button
-          title="prev"
-          onPress={() => switchCamera("prev")}
+          title = "prev"
+          onPress = {() => switchCamera("prev")}
         />
       </View>
     </View>
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignSelf: "stretch",
-    textAlign: "center",
     backgroundColor: "#000000",
+  },
+  Button: {
   },
 });
