@@ -1,0 +1,15 @@
+[Unit]
+Description=Runs CamBox on startup after internet connection
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart="your file path here"
+WorkingDirectory="your file location path here"
+Restart=always
+User="your user here"
+Environment=FLASK_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+
