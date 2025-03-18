@@ -1,6 +1,6 @@
 export const switchCamera = async (direction: string) => {
     try {
-        const response = await fetch("http://192.168.113.92:5000/switchCamera", { // get .env to work here
+        const response = await fetch("http://192.168.217.92:5000/switchCamera", { // get .env to work here
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

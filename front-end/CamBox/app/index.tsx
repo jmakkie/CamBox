@@ -28,7 +28,7 @@ export default function Index() {
       
       {/* webview */}
         <WebView style={styles.webView}
-          source = {{ uri: "http://192.168.113.92:5000" }} //change to use .env
+          source = {{ uri: "http://192.168.217.92:5000" }} //change to use .env
         />
 
       <View style = {styles.buttonContainer}>
